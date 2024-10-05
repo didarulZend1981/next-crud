@@ -11,10 +11,15 @@ export async function POST(request) {
   return NextResponse.json({ message: "Topic Created" }, { status: 201 });
 }
 
+
 export async function GET() {
-  await connectMongoDB();
-  const topics = await Topic.find();
-  return NextResponse.json({ topics });
+  try {
+    await connectMongoDB();
+    const topics = await Topic.find();
+    return NextResponse.json({ topics });
+  } catch (error) {
+      return NextResponse.json({ message: 'Error fetching blogs', error }, { status: 500 });
+  }
 }
 
 
