@@ -1,5 +1,5 @@
 
-"use client";
+"use client"
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,24 @@ export default function AddTopic() {
       return;
     }
 
-    
+    try {
+      const res = await fetch("http://localhost:3000/api/topics", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ title, description }),
+      });
+
+      if (res.ok) {
+        router.refresh();
+        router.push("/");
+      } else {
+        throw new Error("Failed to create a topic");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
